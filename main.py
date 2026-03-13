@@ -12,7 +12,7 @@ BOT_TOKEN = os.environ.get("DISCORD_CHANNEL_BOT_TOKEN")
 # ROLES — exact names as they appear in Discord (case sensitive)
 # ============================================================
 
-ADMIN_ROLES = ["Super Admin", "Staff", "Mod"]
+ADMIN_ROLES = ["Staff", "Mod"]
 
 GAMES = [
     "VALORANT (PC)",
