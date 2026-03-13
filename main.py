@@ -182,12 +182,6 @@ async def ensure_channel(guild: discord.Guild, university: str, game: str, count
     else:
         print(f"  ⚠️  University role not found: '{university}'")
 
-    game_role = discord.utils.get(guild.roles, name=game)
-    if game_role:
-        overwrites[game_role] = discord.PermissionOverwrite(view_channel=True)
-    else:
-        print(f"  ⚠️  Game role not found: '{game}'")
-
     # --- Find or create channel ---
     existing = discord.utils.get(guild.text_channels, name=channel_name)
     if existing:
