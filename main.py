@@ -28,6 +28,7 @@ COUNTRY_ROLE_MAP = {
     "BAHRAIN": "BAHRAIN",
     "QATAR": "QATAR",
     "KUWAIT": "KUWAIT",
+    "KSA": "KSA",
 }
 
 # University roles mapped to their country
@@ -96,14 +97,17 @@ UNIVERSITIES = {
     "QATAR": [
         "Hamad Bin Khalifa University",
     ],
-    "KUWAIT": [],  # Add Kuwait universities here when available
+    "KUWAIT": [],
+    "KSA": [
+        "King Abdulaziz University",
+],
 }
 
 # Roles that should never be treated as university roles
 NON_UNI_ROLES = set(ADMIN_ROLES + GAMES + list(COUNTRY_ROLE_MAP.values()) + [
     "Server Booster", "GateKeeper", "carl-bot", "Bots", "Campus Masters Bot",
-    "Verified", "Participant", "Muted", "Unverified", "Other",
-    "Male", "Female", "Team Members", "Tally", "YAGPDB.xyz", "Ticket Tool",
+    "Verified", "Participant", "Muted", "Unverified","Male", 
+    "Female", "Team Members", "Tally", "YAGPDB.xyz", "Ticket Tool",
     "@everyone"
 ])
 
@@ -401,18 +405,19 @@ async def add_university(ctx, country: str, *, university: str):
     """
     Manually add a new university and create its channels.
     Usage: !add-university UAE New York University Abu Dhabi
-    Accepted countries: JORDAN, UAE, OMAN, BAHRAIN, QATAR, KUWAIT
+    Accepted countries: JORDAN, UAE, OMAN, BAHRAIN, QATAR, KUWAIT, KSA
     """
     country_map = {
         "UAE": "U.A.E.", "U.A.E.": "U.A.E.", "U.A.E": "U.A.E.",
         "JORDAN": "JORDAN", "OMAN": "OMAN",
-        "BAHRAIN": "BAHRAIN", "QATAR": "QATAR", "KUWAIT": "KUWAIT"
+        "BAHRAIN": "BAHRAIN", "QATAR": "QATAR", "KUWAIT": "KUWAIT",
+        "KSA": "KSA"
     }
     country_key = country_map.get(country.upper())
     if not country_key:
         await ctx.send(
             f"❌ Country `{country}` not recognised.\n"
-            f"Use: JORDAN, UAE, OMAN, BAHRAIN, QATAR, KUWAIT"
+            f"Use: JORDAN, UAE, OMAN, BAHRAIN, QATAR, KUWAIT, KSA"
         )
         return
 
