@@ -240,8 +240,8 @@ async def ensure_university_channel(guild: discord.Guild, university: str, count
         else:
             try:
                 thread = await channel.create_thread(
-                    name=thread_name,
-                    auto_archive_duration=10080  # 7 days
+                    name=thread_name
+                    # No auto-archive: threads stay active forever
                 )
                 print(f"    ✅ Created thread: 🧵 {thread_name}")
             except Exception as e:
@@ -635,6 +635,47 @@ async def create_team(ctx, channel_name: str, *, team_role_name: str):
     print(f"✅ Team created: #{channel_name} | Role: {team_role_name}")
 
 
+@bot.command(name="fix-thread-settings")
+@is_admin()
+async def fix_thread_settings(ctx):
+    """
+    Update all existing threads to never auto-archive.
+    Scans all channels and fixes thread archive duration settings.
+    """
+    guild = ctx.guild
+    msg = await ctx.send("🔧 Scanning and fixing thread settings... this may take a moment.")
+    
+    updated_count = 0
+    error_count = 0
+    
+    print(f"\n🔄 Fixing thread settings for {guild.name}...")
+    
+    # Scan all channels in the guild
+    for channel in guild.text_channels:
+        if not channel.threads:
+            continue
+        
+        # Check all threads in this channel
+        for thread in channel.threads:
+            try:
+                # Update thread to never auto-archive
+                await thread.edit(auto_archive_duration=None)
+                print(f"  ✅ Fixed: 🧵 {thread.name} in #{channel.name}")
+                updated_count += 1
+            except Exception as e:
+                print(f"  ❌ Error fixing {thread.name}: {e}")
+                error_count += 1
+    
+    summary = (
+        f"✅ **Thread Settings Fixed!**\n\n"
+        f"🧵 **Threads updated:** {updated_count}\n"
+        f"⚠️  **Errors:** {error_count}"
+    )
+    
+    await msg.edit(content=summary)
+    print(f"\n{summary}\n")
+
+
 @bot.command(name="channel-help")
 @is_admin()
 async def channel_help(ctx):
@@ -645,6 +686,7 @@ async def channel_help(ctx):
         "`!add-university <COUNTRY> <University Name>` — Add a new university channel + threads\n"
         "　　e.g. `!add-university UAE \"Abu Dhabi University\"`\n"
         "`!restructure-channels` — Restructure to new university-based organization (one-time migration)\n"
+        "`!fix-thread-settings` — Update all existing threads to never auto-archive\n"
         "`!create-team <channel-name> <Team Role Name>` — Create text and voice channels for a team\n"
         "　　e.g. `!create-team jordan-hu-alg-valorant Team Algharbi`\n"
         "`!channel-help` — Show this message\n\n"
