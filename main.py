@@ -29,6 +29,7 @@ COUNTRY_ROLE_MAP = {
     "QATAR": "QATAR",
     "KUWAIT": "KUWAIT",
     "KSA": "KSA",
+    "MOROCCO": "MOROCCO",
 }
 
 # University roles mapped to their country — EXACT NAMES FROM DISCORD
@@ -145,6 +146,8 @@ UNIVERSITIES = {
         "Islamic University of Madinah",
         "Northern Border University",
     ],
+    "MOROCCO": [
+],
 }
 
 # Roles that should never be treated as university roles
@@ -446,7 +449,7 @@ async def add_university(ctx, country: str, *, university: str):
         "UAE": "U.A.E.", "U.A.E.": "U.A.E.", "U.A.E": "U.A.E.",
         "JORDAN": "JORDAN", "OMAN": "OMAN",
         "BAHRAIN": "BAHRAIN", "QATAR": "QATAR", "KUWAIT": "KUWAIT",
-        "KSA": "KSA"
+        "KSA": "KSA", "MOROCCO": "MOROCCO"
     }
     country_key = country_map.get(country.upper())
     if not country_key:
